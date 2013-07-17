@@ -25,17 +25,18 @@ describe "Currencies changing" do
 
   end
 
-  it "check save master_price" do
-    I18n.locale = :en
-    Spree::Currency.current!
-    product = Spree::Product.new(name: "test123", price: 123.54)
-    product.save!
-    product.reload
-    product.price.should eql 123.54
-    product.master.price.should eql 123.54
-    I18n.locale = :ru
-    Spree::Currency.current!
-    product.price.should eql 3953.28
-    product.master.price.should eql 3953.28
-  end
+    it 'check save master_price' do
+      I18n.locale = 'en'
+      Spree::Currency.current!
+      product = Spree::Product.new(name: 'test123', price: 123.54)
+      product.save!
+      product.reload
+      product.price.should eql 123.54
+      product.master.price.should eql 123.54
+      I18n.locale = 'ru'
+      Spree::Currency.current!
+      Rails.logger.info "\t\n"*10
+      product.price.should eql 3953.28
+      product.master.price.should eql 3953.28
+    end
 end
