@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'rake'
+require 'rake/testtask'
+require 'rake/packagetask'
 require 'rubygems/package_task'
 require 'rspec/core/rake_task'
 require 'spree/testing_support/extension_rake'
