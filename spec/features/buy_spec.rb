@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Buy' do
-  background :each do
+  background do
     # factories defined in spree/core/lib/spree/testing_support/factories
     # @calculator = create(:calculator)
     zone = create(:zone, name: 'CountryZone')
@@ -39,9 +39,15 @@ feature 'Buy' do
   end
 
   scenario 'visit root page' do
+      # check Spree::Config.show_products_without_price
+    Spree::Config.show_products_without_price = false
     name = @product.name
     visit '/'
-    save_and_open_page
+
+    expect(page).to have_no_content(name)
+    Spree::Config.show_products_without_price = true
+    visit '/'
+
     expect(page).to have_content(name)
     click_link name
     click_button 'add-to-cart-button'
@@ -73,13 +79,5 @@ feature 'Buy' do
     # payment page
     fill_in 'social_security_number', with: '410321-9202'
     click_button 'Save and Continue'
-
-    # confirm
-    # FIXME undefined method `authorize' for #<Spree::PaymentMethod::KlarnaInvoice:0x0000000d4c8ee0>
-    # click_button 'Place Order'
-    #
-
-    # as result require receive invoice and check that invoice created in klarna
-    # save_and_open_page
   end
 end

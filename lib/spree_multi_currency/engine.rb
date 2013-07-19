@@ -3,8 +3,8 @@ module Spree
     # Order.class_eval do
     # extend MultiCurrency
     # multi_currency :item_total, :total,
-    #                rate_at_date: lambda { |t| t.created_at },
-    #                only_read: true
+    #                :rate_at_date => lambda{ |t| t.created_at },
+    #                :only_read => true
     #  only_read - define just the getter method (and not the setter)
     #  rate_at_date - use the exchange rate at the specified date
     def multi_currency(*args)
@@ -22,10 +22,6 @@ module Spree
           else
             Spree::Currency.conversion_to_current(read_attribute(number_field.to_sym))
           end
-        end
-
-        define_method("base_#{number_field}") do
-          read_attribute(number_field.to_sym)
         end
 
         unless options[:only_read]
