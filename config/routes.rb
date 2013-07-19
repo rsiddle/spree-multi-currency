@@ -1,4 +1,4 @@
-Spree::Core::Engine.routes.prepend do
+Spree::Core::Engine.routes.append do
   match '/currency/set', to: 'currency#set', defaults: { format: :json }, as: :set_currency
 
   namespace :admin do
