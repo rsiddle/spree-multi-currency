@@ -1,5 +1,5 @@
 module Spree
-  class CurrencyController < Spree::StoreController
+  class CurrencyController < StoreController
     def set
       currency = supported_currencies.find { |currency| currency.iso_code == params[:currency] }
       session[:currency] = params[:currency] if Spree::Config[:allow_currency_change]

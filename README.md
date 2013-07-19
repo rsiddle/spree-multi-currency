@@ -58,6 +58,6 @@ Copyright (c) 2013, Pronix LLC. and other contributors, released under the [New 
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
 [2]: https://github.com/spree/spree_multi_currency/issues
-[3]: https://github.com/spree/spree_multi_currency/tree/master/LICENSE
+[3]: https://github.com/spree/spree_multi_currency/tree/master/LICENSE.md
 [4]: http://www.localeapp.com/projects/5369
 [5]: https://github.com/thoughtbot/guides
