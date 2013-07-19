@@ -9,5 +9,4 @@ Spree::LineItem.class_eval do
   def raw_amount
     read_attribute(:price) * self.quantity
   end
-
 end

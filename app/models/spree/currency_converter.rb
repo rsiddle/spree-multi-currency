@@ -7,7 +7,7 @@ module Spree
 
     class << self
       def add(currency, date, value, nominal)
-        create({ nominal: nominal, value: value, date_req: date, currency: currency})
+        create({ nominal: nominal, value: value, date_req: date, currency: currency })
       end
     end
   end

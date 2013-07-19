@@ -16,7 +16,7 @@ Spree::Order.class_eval do
   # if the calculator fixed price (per item) was used.
   # not tested with any other calculators
   def rate_hash
-    highest_cost=0
+    highest_cost = 0
     available_shipping_methods(:front_end).map do |ship_method|
       next unless cost = ship_method.calculator.compute(self)
       if cost > highest_cost
@@ -59,32 +59,32 @@ Spree::Order.class_eval do
   end
 
   def add_variant(variant, quantity = 1)
-      current_item = contains?(variant)
-      if current_item
-        current_item.quantity += quantity
-        current_item.save
-      else
-        current_item = Spree::LineItem.new(quantity: quantity)
-        current_item.variant = variant
-        current_item.price   = variant.read_attribute(:price)
-        self.line_items << current_item
+    current_item = contains?(variant)
+    if current_item
+      current_item.quantity += quantity
+      current_item.save
+    else
+      current_item = Spree::LineItem.new(quantity: quantity)
+      current_item.variant = variant
+      current_item.price   = variant.read_attribute(:price)
+      self.line_items << current_item
+    end
+
+    # populate line_items attributes for additional_fields entries
+    # that have populate => [:line_item]
+    Spree::Variant.additional_fields.select { |f| !f[:populate].nil? && f[:populate].include?(:line_item) }.each do |field|
+      value = ''
+
+      name = field[:name].gsub(' ', '_').downcase
+      if field[:only].nil? || field[:only].include?(:variant)
+        value = variant.send(name)
+      elsif field[:only].include?(:product)
+        value = variant.product.send(name)
       end
+      current_item.update_attribute(name, value)
+    end
 
-      # populate line_items attributes for additional_fields entries
-      # that have populate => [:line_item]
-      Spree::Variant.additional_fields.select { |f| !f[:populate].nil? && f[:populate].include?(:line_item) }.each do |field|
-        value = ''
-
-        name = field[:name].gsub(' ', '_').downcase
-        if field[:only].nil? || field[:only].include?(:variant)
-          value = variant.send(name)
-        elsif field[:only].include?(:product)
-          value = variant.product.send(name)
-        end
-        current_item.update_attribute(name, value)
-      end
-
-      self.reload
-      current_item
+    self.reload
+    current_item
   end
 end
