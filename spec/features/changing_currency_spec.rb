@@ -1,4 +1,5 @@
-require "spec_helper"
+# coding: utf-8
+require 'spec_helper'
 
 feature "Currencies changing" do
   background do
