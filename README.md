@@ -1,9 +1,8 @@
 # Spree Multi-Currency
 
-[![Build Status](https://travis-ci.org/futhr/spree-multi-currency.png)](https://travis-ci.org/futhr/spree-multi-currency)
+[![Build Status](https://travis-ci.org/futhr/spree-multi-currency.png?branch=2-0-stable)](https://travis-ci.org/futhr/spree-multi-currency)
 [![Dependency Status](https://gemnasium.com/futhr/spree-multi-currency.png)](https://gemnasium.com/futhr/spree-multi-currency)
-[![Coverage Status](https://coveralls.io/repos/futhr/spree-multi-currency/badge.png?branch=master)](https://coveralls.io/r/futhr/spree-multi-currency)
-[![Code Climate](https://codeclimate.com/repos/51e56f5956b102205b01233e/badges/d68b66dbb22d859d9091/gpa.png)](https://codeclimate.com/repos/51e56f5956b102205b01233e/feed)
+[![Coverage Status](https://coveralls.io/repos/futhr/spree-multi-currency/badge.png?branch=2-0-stable)](https://coveralls.io/r/futhr/spree-multi-currency)
 
 Provides UI to allow configuring multiple currencies in Spree and support different currency and recalculate price from one to another.
 
@@ -11,7 +10,13 @@ Provides UI to allow configuring multiple currencies in Spree and support differ
 
 Add to `Gemfile`
 ```ruby
-gem 'spree_multi_currency', github: 'futhr/spree-multi-currency'
+gem 'spree_multi_currency', github: 'futhr/spree-multi-currency', branch: '2-0-stable'
+```
+
+Alternative branch without currency convertors
+
+```ruby
+gem 'spree_multi_currency', github: 'futhr/spree-multi-currency', branch: '2-0-stable-slim-edition'
 ```
 
 Run
@@ -144,6 +149,6 @@ Copyright (c) 2013, Pronix LLC. and other contributors, released under the [New 
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
 [2]: https://github.com/spree/spree-multi-currency/issues
-[3]: https://github.com/spree/spree-multi-currency/tree/master/LICENSE.md
+[3]: https://github.com/spree/spree-multi-currency/blob/2-0-stable/LICENSE.md
 [4]: http://www.localeapp.com/projects/4925
 [5]: https://github.com/thoughtbot/guides
