@@ -21,6 +21,7 @@ gem 'spree_multi_currency', github: 'futhr/spree-multi-currency', branch: '2-0-s
 
 Run
 
+    bundle install
     rails g install:spree_multi_currency
 
 ### Load currencies:
@@ -145,10 +146,12 @@ Starting point:
 * Ensure specs pass by running `bundle exec rspec spec`
 * Submit your pull request
 
-Copyright (c) 2013, Pronix LLC. and other contributors, released under the [New BSD License][3]
+Copyright (c) 2013, [Pronix LLC.][6] and [contributors][7], released under the [New BSD License][3]
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
-[2]: https://github.com/spree/spree-multi-currency/issues
-[3]: https://github.com/spree/spree-multi-currency/blob/2-0-stable/LICENSE.md
+[2]: https://github.com/futhr/spree-multi-currency/issues
+[3]: https://github.com/futhr/spree-multi-currency/blob/2-0-stable/LICENSE.md
 [4]: http://www.localeapp.com/projects/4925
 [5]: https://github.com/thoughtbot/guides
+[6]: https://github.com/pronix
+[7]: https://github.com/futhr/spree-multi-currency/contributors
