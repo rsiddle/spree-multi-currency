@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+group :assets do
+  gem 'coffee-rails'
+  gem 'sass-rails'
+end
+
 gem 'spree', github: 'spree/spree', branch: '2-0-stable'
 
 # provides basic authentication functionality for testing parts of your engine
