@@ -1,11 +1,17 @@
 # coding: utf-8
 require 'spec_helper'
 
-feature "Buy" do
+feature 'Buy' do
+  given!(:user) { create(:user) }
+  given!(:usd)  { create(:currency, :usd) }
+  given!(:rub)  { create(:currency, :rub) }
+
   background do
-    zone = create(:zone, name: "CountryZone")
-    @ship_cat = create(:shipping_category,name: "all")
-    @product  = create(:base_product, name: "product1")
+    Spree::CurrencyConverter.add(rub, Time.now, 1.0, 32.0)
+
+    zone = create(:zone, name: 'CountryZone')
+    @ship_cat = create(:shipping_category, name: 'all')
+    @product  = create(:product, name: 'Rails Mug')
     @product.shipping_category = @ship_cat
     @product.save!
     @product.prices.each {|x| puts x.to_yaml }
@@ -13,20 +19,13 @@ feature "Buy" do
     stock.adjust_count_on_hand(100)
     stock.save!
 
-    @country = create(:country,
-                      iso_name: "SWEDEN",
-                      name: "Sweden",
-                      iso: "SE",
-                      iso3: "SE",
-                      numcode: 46)
+    @country = create(:country, iso_name: 'SWEDEN', name: 'Sweden', iso: 'SE', iso3: 'SE', numcode: 46)
     @country.states_required = false
     @country.save!
-    @state = @country.states.create(name: "Stockholm")
-    zone.members.create(zoneable: @country,zoneable_type: "Country")
+    @state = @country.states.create(name: 'Stockholm')
+    zone.members.create(zoneable: @country, zoneable_type: 'Country')
 
-    ship_meth = create(:shipping_method,
-        calculator_type: "Spree::Calculator::Shipping::FlatRate",
-        display_on: "both")
+    ship_meth = create(:shipping_method, calculator_type: 'Spree::Calculator::Shipping::FlatRate', display_on: 'both')
     ship_meth.zones << zone
     ship_meth.shipping_categories << @ship_cat
     ship_meth.calculator.preferred_amount = 90
@@ -35,51 +34,64 @@ feature "Buy" do
     @pay_method = create(:payment_method)
   end
 
-  pending "visit root page" do
-    Spree::Config[:show_products_without_price] = false
-    name = @product.name
-    visit "/"
-
-    expect(page).to have_no_content(name)
-
-    Spree::Config[:show_products_without_price] = true
-    visit "/"
-
-    expect(page).to have_content(name)
-
-    # check change currency on product page
-    visit "/currency/RUB"
-    expect(page).to have_content("руб")
-    visit "/currency/USD"
-
-    click_link name
-    click_button "add-to-cart-button"
-    click_button "checkout-link"
-    fill_in "order_email", with: "test2@example.com"
-    click_button "Continue"
-
-    # fill addresses
-    # copy from spree/backend/spec/requests/admin/orders/order_details_spec.rb
-    # may will in future require update
-    check "order_use_billing"
-    fill_in "order_bill_address_attributes_firstname", with: "Joe"
-    fill_in "order_bill_address_attributes_lastname",  with: "User"
-    fill_in "order_bill_address_attributes_address1",  with: "7735 Old Georgetown Road"
-    fill_in "order_bill_address_attributes_address2",  with: "Suite 510"
-    fill_in "order_bill_address_attributes_city",      with: "Bethesda"
-    fill_in "order_bill_address_attributes_zipcode",   with: "20814"
-    fill_in "order_bill_address_attributes_phone",     with: "301-444-5002"
-    within("fieldset#billing") do
-      select @country.name, from: "Country"
+  context 'using different currencies' do
+    xscenario 'products without price not visible' do
+      Spree::Config[:show_products_without_price] = false
+      visit '/'
+      expect(page).to have_no_content @product.name
     end
 
-    click_button "Save and Continue"
+    scenario 'products without price visible' do
+      Spree::Config[:show_products_without_price] = true
+      visit '/'
+      expect(page).to have_content @product.name
+    end
 
-    # shipping
-    click_button "Save and Continue"
+    context 'change currency on product page' do
+      xscenario 'using rubler' do
+        visit '/currency/RUB'
+        expect(page).to have_content 'руб'
+      end
 
-    # payment page
-    fill_in "social_security_number", with: "410321-9202"
-    click_button "Save and Continue"
+      xscenario 'using dollar' do
+        visit '/currency/USD'
+        expect(page).to have_content 'USD'
+      end
+    end
+
+    xscenario 'can checkout using selected currency' do
+      visit '/'
+      click_link @product.name, exact: false
+      click_button 'add-to-cart-button'
+      click_button 'checkout-link'
+
+      # guest checkout
+      fill_in 'order_email', with: user.email
+      click_button 'Continue'
+
+      # fill addresses
+      # copy from spree/backend/spec/requests/admin/orders/order_details_spec.rb
+      # may will in future require update
+      check 'order_use_billing'
+      fill_in 'order_bill_address_attributes_firstname', with: user.firstname
+      fill_in 'order_bill_address_attributes_lastname',  with: user.lastname
+      fill_in 'order_bill_address_attributes_address1',  with: user.address1
+      fill_in 'order_bill_address_attributes_address2',  with: user.address2
+      fill_in 'order_bill_address_attributes_city',      with: user.city
+      fill_in 'order_bill_address_attributes_zipcode',   with: user.zipcode
+      fill_in 'order_bill_address_attributes_phone',     with: user.phone
+      within('fieldset#billing') do
+        select @country.name, from: 'Country'
+      end
+
+      click_button 'Save and Continue'
+
+      # shipping
+      click_button 'Save and Continue'
+
+      # payment page
+      # fill_in 'social_security_number', with: '410321-9202'
+      click_button 'Save and Continue'
+    end
   end
 end
