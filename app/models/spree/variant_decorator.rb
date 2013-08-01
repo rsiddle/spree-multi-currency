@@ -58,7 +58,6 @@ Spree::Variant.class_eval do
     end
   end
 
-
   # redefine spree method from spree/core/app/models/spree/variant.rb
   def price_in(currency)
     res = prices.select{ |price| price.currency == currency }.first
