@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'money', '>= 5.0.0'
   s.add_runtime_dependency 'json', '>= 1.5.1'
 
-  s.add_development_dependency 'rspec-rails', '~> 2.13'
+  s.add_development_dependency 'rspec-rails', '~> 2.14'
   s.add_development_dependency 'capybara', '~> 2.1.0'
   s.add_development_dependency 'capybara-webkit', '~> 1.0.0'
   s.add_development_dependency 'factory_girl', '~> 4.2'
@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coffee-rails', '~> 3.2.2'
   s.add_development_dependency 'sass-rails', '~> 3.2.6'
   s.add_development_dependency 'ffaker'
-  s.add_development_dependency 'database_cleaner'
+  s.add_development_dependency 'database_cleaner', '~> 1.0.1'
   s.add_development_dependency 'simplecov', '~> 0.7.1'
   s.add_development_dependency 'sqlite3', '~> 1.3.7'
   s.add_development_dependency 'fuubar', '>= 0.0.1'
