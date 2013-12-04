@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_runtime_dependency 'spree', '~> 2.0.0'
+  s.add_runtime_dependency 'spree', '>= 2.0.0'
   s.add_runtime_dependency 'nokogiri', '>= 1.4.4'
   s.add_runtime_dependency 'money', '>= 5.0.0'
   s.add_runtime_dependency 'json', '>= 1.5.1'
